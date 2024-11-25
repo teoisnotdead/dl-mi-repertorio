@@ -39,3 +39,16 @@ export const updateSong = async (req, res) => {
     res.status(500).json({ error: "Error editando la canción" })
   }
 }
+
+export const deleteSong = async (req, res) => {
+  try {
+    const { id } = req.params
+    let data = JSON.parse(await readFile(SONGS_FILE, "utf-8"))
+    data = data.filter((song) => song.id !== id)
+    await writeFile(SONGS_FILE, JSON.stringify(data, null, 2))
+    res.json({ message: "Canción eliminada" })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: "Error eliminando la canción" })
+  }
+}
