@@ -76,7 +76,7 @@
 </style>
 
 <script>
-  let url = "/canciones";
+  let url = "api/canciones";
   let tbody = document.getElementById("cuerpo");
   let cancion = document.getElementById("cancion");
   let artista = document.getElementById("artista");
@@ -148,7 +148,6 @@
   function editarCancion(id) {
     axios
       .put(url + "/" + id, {
-        id,
         titulo: cancion.value,
         artista: artista.value,
         tono: tono.value,
