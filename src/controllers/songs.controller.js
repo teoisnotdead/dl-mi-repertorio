@@ -5,7 +5,7 @@ const SONGS_FILE = 'src/data/repertorio.json'
 export const getSongs = async (req, res) => {
   try {
     const songs = await readFile(SONGS_FILE, 'utf-8')
-    res.json(JSON.parse(songs));
+    res.json(JSON.parse(songs))
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
@@ -13,15 +13,29 @@ export const getSongs = async (req, res) => {
 
 export const addSong = async (req, res) => {
   try {
-    const newSong = req.body;
+    const newSong = req.body
     const songs = JSON.parse(await readFile(SONGS_FILE, 'utf-8'))
-    songs.push(newSong);
+    songs.push(newSong)
     await writeFile(SONGS_FILE, JSON.stringify(songs, null, 2))
-    res.status(201).json(newSong);
+    res.status(201).json(newSong)
   }
   catch (error) {
-    console.log('request', req.body);
-    console.error(error.message)
     res.status(500).json({ error: 'Error agregando la canción' })
+  }
+}
+
+export const updateSong = async (req, res) => {
+  try {
+    const { id } = req.params
+    const updatedSong = req.body
+    let data = JSON.parse(await readFile(SONGS_FILE, "utf-8"))
+    data = data.map((song) =>
+      song.id === id ? { ...song, ...updatedSong } : song
+    )
+    await writeFile(SONGS_FILE, JSON.stringify(data, null, 2))
+    res.json(updatedSong)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: "Error editando la canción" })
   }
 }

@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getSongs, addSong } from "../controllers/songs.controller.js"
+import { getSongs, addSong, updateSong } from "../controllers/songs.controller.js"
 
 const router = Router()
 
@@ -9,5 +9,6 @@ router.get("/", (req, res) => {
 
 router.get('/canciones', getSongs)
 router.post('/canciones', addSong)
+router.put('/canciones/:id', updateSong)
 
 export default router
